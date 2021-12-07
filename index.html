@@ -7,6 +7,61 @@
 
 </head>
 <body>
+<div id="app">
+    <header>
+        <h1>
+            Карточки
+        </h1>
+            <p>{{ count }}</p>
+    </header>
+
+    <main>
+        <card :price="200"></card>
+        <card :price="500"></card>
+        <card :price="800"></card>
+    </main>
+</div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+
+
+        const Card = {
+            props: ['price','img_cat'],
+            data() {
+                return {
+                    count: 0,
+                    img_cat: 'https://cdnimg.rg.ru/img/content/206/16/91/NIK_0544_d_850.jpg'
+                }
+            },
+            methods: {
+                plus: function() {
+                    this.count++;
+                },
+                minus: function() {
+                    if (this.count > 0) this.count--;
+                },
+            },
+            template:
+                `<figure>
+                <img  :src='img_cat' alt="image" height="500" width="500" class="image">
+                <figcaption class="sign">
+                  Укажите количество <button v-on:click="minus()">-</button> {{ count }} <button v-on:click="plus()">+</button><br>
+                <span> Цена:{{ price }}р</span>
+                </figcaption>
+                </figure>`
+        }
+        Vue.createApp({
+        components: {
+            'card': Card
+        },
+            methods: {
+                sayHi() {
+                    return `${this.count}`
+                },
+            }
+
+    }).mount('#app');
+    </script>
 
 </body>
 </html>
