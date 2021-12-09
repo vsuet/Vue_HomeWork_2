@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="app">
+    <header>
+        <h1>
+            Карточки
+        </h1>
+            <h2> Общее количество: {{ sum() }}</h2>
+    </header>
+
+    <main>
+        <card :price="200"  v-on:amountchange="action1"></card>
+        <card :price="500"  v-on:amountchange="action2"></card>
+        <card :price="800"  v-on:amountchange="action3"></card>
+    </main>
+</div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+
+
+        const Card = Vue.createApp({
+            data(){
+                return {
+                    count1:0,
+                    count2:0,
+                    count3:0,
+                }
+            },
+            methods:{
+                action1(value){
+                    this.count1 = value;
+                },
+                action2(value){
+                    this.count2 = value;
+                },
+                action3(value){
+                    this.count3 = value;
+                },
+                sum(){
+                   return this.count2 + this.count1 + this.count3
+                }
+            }
+        });
+
+        Card.component('card', {
+            props: ["amount",'price','img_cat'],
+            data() {
+                return { amount:0, img_cat: 'https://cdnimg.rg.ru/img/content/206/16/91/NIK_0544_d_850.jpg'}
+            },
+            template:
+                `<figure>
+                <img  :src= 'img_cat'  alt="image" height="500" width="500" class="image">
+                <figcaption class="sign">
+                  Укажите количество <button  v-model="amount" v-on:click="minus()">-</button> {{ amount }} <button v-model="amount" v-on:click="plus()">+</button><br>
+                <span> Цена:{{ price }}р</span>
+                </figcaption>
+                </figure>`,
+            methods: {
+                plus: function() {
+                    this.amount++;
+                    this.$emit('amountchange', this.amount);
+                },
+                minus: function() {
+                    if (this.amount > 0) this.amount--;
+                    this.$emit('amountchange', this.amount);
+                },
+
+            }
+        })
+        .mount('#app');
+    </script>
+</body>
+</html>
