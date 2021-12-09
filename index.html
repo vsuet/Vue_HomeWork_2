@@ -12,56 +12,58 @@
         <h1>
             Карточки
         </h1>
-            <p>{{ count }}</p>
+            <h2> Общее количество: {{ count }}</h2>
     </header>
 
     <main>
-        <card :price="200"></card>
-        <card :price="500"></card>
-        <card :price="800"></card>
+        <card :price="200"  v-on:amountchange="change"></card>
+        <card :price="500"  v-on:amountchange="change"></card>
+        <card :price="800"  v-on:amountchange="change"></card>
     </main>
 </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script>
 
 
-        const Card = {
-            props: ['price','img_cat'],
-            data() {
+        const Card = Vue.createApp({
+            data(){
                 return {
-                    count: 0,
-                    img_cat: 'https://cdnimg.rg.ru/img/content/206/16/91/NIK_0544_d_850.jpg'
+                    count:0,
                 }
             },
-            methods: {
-                plus: function() {
-                    this.count++;
-                },
-                minus: function() {
-                    if (this.count > 0) this.count--;
-                },
+            methods:{
+                change(value){
+                    this.count = value+value;
+                }
+            }
+        });
+
+        Card.component('card', {
+            props: ["amount",'price'],
+            data() {
+                return { amount:0, img_cat: 'https://cdnimg.rg.ru/img/content/206/16/91/NIK_0544_d_850.jpg'}
             },
             template:
                 `<figure>
-                <img  :src='img_cat' alt="image" height="500" width="500" class="image">
+                <img  :src= 'img_cat'  alt="image" height="500" width="500" class="image">
                 <figcaption class="sign">
-                  Укажите количество <button v-on:click="minus()">-</button> {{ count }} <button v-on:click="plus()">+</button><br>
+                  Укажите количество <button  v-model="amount" v-on:click="minus()">-</button> {{ amount }} <button v-model="amount" v-on:click="plus()">+</button><br>
                 <span> Цена:{{ price }}р</span>
                 </figcaption>
-                </figure>`
-        }
-        Vue.createApp({
-        components: {
-            'card': Card
-        },
+                </figure>`,
             methods: {
-                sayHi() {
-                    return `${this.count}`
+                plus: function() {
+                    this.amount++;
+                    this.$emit('amountchange', this.amount);
                 },
+                minus: function() {
+                    if (this.amount > 0) this.amount--;
+                    this.$emit('amountchange', this.amount);
+                },
+
             }
-
-    }).mount('#app');
+        })
+        .mount('#app');
     </script>
-
 </body>
 </html>
