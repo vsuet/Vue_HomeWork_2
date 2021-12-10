@@ -1,0 +1,25 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+}
+
+.card {
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+button {
+    width: auto;
+    border-width: 0;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background: cornflowerblue;
+    color: white;
+}
+
+img {
+    width: 300px;
+}
