@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<div id="app">
+    <header>
+		<h1>Карточки продуктов</h1>
+		<p>{{ total_order() }}</p>
+	</header>
+
+    <main>
+        <card :price="100"  v-on:amountchange="action1"></card>
+        <card :price="150"  v-on:amountchange="action2"></card>
+        <card :price="200"  v-on:amountchange="action3"></card>
+    </main>
+
+</div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+
+
+        const Card = Vue.createApp({
+            data(){
+                return {
+                    order_1:0,
+                    order_2:0,
+                    order_3:0,
+                }
+            },
+            methods:{
+                action1(value){
+                    this.order_1 = value;
+                },
+                action2(value){
+                    this.order_2 = value;
+                },
+                action3(value){
+                    this.order_3 = value;
+                },
+                total_order(){
+                   return this.order_1 + this.order_2 + this.order_3
+                }
+            }
+        });
+
+        Card.component('card', {
+            props: ["amount",'price','img'],
+            data() {
+                return { amount:0, img: 'https://image.winudf.com/v2/image/Y29tLndLdW1wdWxhblRva29PbmxpbmVfMzc5NjA3Ml9zY3JlZW5zaG90c18wXzI3NjRlNTU2/screen-0.jpg?h=500&amp;fakeurl=1&amp;type=.jpg'}
+            },
+            template:
+                `<figure>
+                 	<img  :src= 'img'  alt='Карточка товара'>
+                 	<figcaption class="sign">
+                   		Укажите количество <button  v-model="amount" v-on:click="minus()">-</button> {{ amount }} <button v-model="amount" v-on:click="plus()">+</button><br>
+                		<span> Цена:{{ price }}р</span>
+                	</figcaption>
+                </figure>`,
+            methods: {
+                plus: function() {
+                    this.amount++;
+                    this.$emit('amountchange', this.amount);
+                },
+                minus: function() {
+                    if (this.amount > 0) this.amount--;
+                    this.$emit('amountchange', this.amount);
+                },
+
+            }
+        })
+        .mount('#app');
+    </script>
+</body>
+</html> 

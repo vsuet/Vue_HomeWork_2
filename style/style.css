@@ -1,0 +1,29 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	background: lightcoral;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+header h1 {
+	margin-top: 0;
+	margin-right: 50px;
+}
+
+header p {
+	margin-top: 0;
+	margin-left: 50px;
+}
+
+main {
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+}
